@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">User  Dashboard</div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="dashboard-content">
+            <h2>Welcome, {{ username }}!</h2>
+            <p>Explore our available movies below.</p>
+
+            <!-- Search Form -->
+            <form action="{{ url_for('dashboard') }}" method="POST" class="search-form">
+                <input type="text" name="search" placeholder="Search movies..." value="{{ search_query }}" required>
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- Movie Table -->
+            <table class="movie-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Release Year</th>
+                        <th>Genre</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if movies %}
+                        {% for movie in movies %}
+                        <tr>
+                            <td>{{ movie[1] }}</td>
+                            <td>{{ movie[2] }}</td>
+                            <td>{{ movie[3] }}</td>
+                            <td>{{ movie[4] }}</td>
+                            <td>{{ movie[5] }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No movies found.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+
+            {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div id="popup" class="popup {% for category, message in messages %}{{ category }}{% endfor %}">
+                    {% for category, message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% endwith %}
+
+            <script>
+                // Display flash message as popup
+                window.onload = function() {
+                    const popup = document.getElementById('popup');
+                    if (popup) {
+                        popup.style.display = 'block';
+                        setTimeout(() => { popup.style.display = 'none'; }, 3000); // Hide after 3 seconds
+                    }
+                };
+            </script>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; {{ current_year }} Movie Management System - RASIKASHREE S (2303737724422052)</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if movie %}Edit Movie{% else %}Add New Movie{% endif %}</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: rgb(160, 0, 0);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: rgb(160, 0, 0);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: rgb(160, 0, 0);
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{% if movie %}Edit Movie{% else %}Add New Movie{% endif %}</h1>
+        <form method="POST" action="#">
+            <input type="text" name="title" placeholder="Movie Title" value="{{ movie[1] if movie else '' }}" required>
+            <textarea name="description" placeholder="Movie Description" required>{{ movie[2] if movie else '' }}</textarea>
+            <input type="number" name="release_year" placeholder="Release Year" value="{{ movie[3] if movie else '' }}" required>
+            <input type="text" name="genre" placeholder="Genre" value="{{ movie[4] if movie else '' }}" required>
+            <input type="number" name="rating" placeholder="Rating" value="{{ movie[5] if movie else '' }}" required>
+            <button type="submit">{% if movie %}Update Movie{% else %}Add Movie{% endif %}</button>
+        </form>
+        <a href="{{ url_for('admin') }}" class="back-link">Back to Admin</a>
+    </div>
+</body>
+</html>
